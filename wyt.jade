@@ -1,0 +1,98 @@
+head
+  title יום מודעות לאנשים בעלי מוגבלויות
+  meta(charset="utf-8")
+  meta(http-equiv="X-UA-Compatible", content="IE=edge")
+  meta(name="viewport", content="width=device-width, initial-scale=1")
+
+body
+  //- nothing here
+
+template(name="home")
+  +hello
+  +comment
+
+template(name="tv")
+  +hello
+  +link_to_web
+
+template(name="hello")
+  div(style="height: 50%;")
+    .row(style="height: 100%;")
+      .col-xs-12(style="padding: 0; height: 100%;")
+        #carousel.carousel.slide(style="height: 100%;")
+          .carousel-inner(role='listbox')
+            each answers
+              +answer
+          a.left.carousel-control(href='#carousel', role='button', data-slide='prev')
+            span.glyphicon.glyphicon-chevron-left
+            span.sr-only אחורה
+          a.right.carousel-control(href='#carousel', role='button', data-slide='next')
+            span.glyphicon.glyphicon-chevron-right
+            span.sr-only קדימה
+
+template(name="link_to_web")
+  p הכנסו לאתר שלנו
+
+template(name="answer")
+  .item
+    h2
+      = text
+      br
+      small {{moFromNow createdAt}}
+
+template(name="comment")
+  .black
+    .container.black
+      .row
+        .col-xs-12
+          #add-comment
+            h3 שתפו אותנו במחשבות שלכם!
+            p התשובות יפורסמו אנונימית על כל מסכי המכללה.
+            p
+              select.form-control(required="required")
+                option(selected="selected" disabled="disabled") בחירת שאלה
+                option(value="איך אתם מגיבים למילה מוגבלות?") איך אתם מגיבים למילה מוגבלות?
+                option(value="מה אתם מרגישים כלפי אנשים עם מוגבלות?") מה אתם מרגישים כלפי אנשים עם מוגבלות?
+                option(value="ספרו לנו על חוויתכם האישית מהתמודדות עם מוגבלות שלכם, או של זולתכם") ספרו לנו על חוויתכם האישית מהתמודדות עם מוגבלות שלכם, או של זולתכם
+                option(value="למה קיים לדעתכם קושי בלקבל ולהכין מוגבלויות?") למה קיים לדעתכם קושי בלקבל ולהכין מוגבלויות?
+                option(value="האם לדעתכם יש יתרונות במוגבלות?") האם לדעתכם יש יתרונות במוגבלות?
+                option(value="האם הייתם לוקחים חלק בפעילות של התא לנגישות אנשים עם מוגבלויות במכללה? למה?") האם הייתם לוקחים חלק בפעילות של התא לנגישות אנשים עם מוגבלויות במכללה? למה?
+              textarea.form-control(placeholder="אני חושב/ת ש..." required="required")
+              .text-left
+                button.btn.btn-primary.btn-block.btn-lg שיתוף דעה
+          #thanks(style="display: none;")
+            h3 תודה!
+            p התגובה שלכם תתווסף מיד לאחר שתאושר.
+            p.visible-xs-block בינתיים, למה שלא תזמינו את החברים שלכם <a href='whatsapp://send?text=למה אנחנו מוגבלים בלקבל אנשים בעלי מוגבלויות? בואו לדבר על זה http://qr.net/mugbalut'>דרך וואטסאפ</a> להשתתף גם?
+            p רוצים <a href="http://qr.net/mugbalut">לענות על שאלה נוספת?</a>
+          #explain
+            h4 איך זה עובד?
+            p לקראת יום המודעות לאנשים בעלי מוגבלויות פרסמנו את השאלות האלו בכל מיני דרכים, כדי לעורר דיון. באמצעות האתר אתם יכולים להשיב על השאלות, והתשובות שלכם יוצגו על כל מסכי המכללה לאורך ימי המודעות.
+            p המטרה היא לקיים שיח עמוק שמבוסס על כנות. בחרו שאלה וענו עליה, ותוכלו להשמיע את קולכם ברגע.
+    .clearfix
+
+template(name="answers_list")
+  .container
+    .row
+      .col-xs-12
+        h1 יום מודעות לאנשים בעלי מוגבלויות
+    .row
+      .col-xs-12
+        table.table
+          thead
+            tr
+              th.text-right תשובה
+              th.text-center תאריך
+              th.text-center מאושרת
+          tbody
+            each answers
+              +answer_admin
+
+
+template(name="answer_admin")
+  tr
+    td
+      input(type="text", value=text, disabled=approved).answer-edit.form-control
+    td.text-center {{moFormat createdAt 'YYYY-MM-DD hh:mm:ss'}}
+    td.text-center
+      input(type="checkbox", checked=approved).toggle-checked
